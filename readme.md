@@ -1,7 +1,7 @@
 ## Easier to record fields with logger
 
 ```bash
-go get github.com/fangx-packages/logkv
+go get github.com/fangx-packages/logkv@v0.1.0
 ```
 
 ### Usage
