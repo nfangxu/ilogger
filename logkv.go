@@ -5,6 +5,7 @@ type LogKv interface {
 	Info(msg string, kvs Kvs)
 	Debug(msg string, kvs Kvs)
 	With(kvs Kvs) LogKv
+	WithFunc(fn func() Kvs) LogKv
 }
 
 type NoLogKv struct{}
@@ -16,3 +17,5 @@ func (kv NoLogKv) Info(msg string, kvs Kvs) {}
 func (kv NoLogKv) Debug(msg string, kvs Kvs) {}
 
 func (kv NoLogKv) With(kvs Kvs) LogKv { return kv }
+
+func (kv NoLogKv) WithFunc(fn func() Kvs) LogKv { return kv }

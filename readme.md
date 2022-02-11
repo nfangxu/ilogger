@@ -30,6 +30,10 @@ func (l *kitLogger) With(kvs logkv.Kvs) logkv.LogKv {
 	return &kitLogger{next: kitlog.With(l.next, l.format(kvs)...)}
 }
 
+func (l *kitLogger) WithFunc(fn func() logkv.Kvs) logkv.LogKv {
+	return l.With(fn())
+}
+
 func (l *kitLogger) Error(msg string, err error, kvs logkv.Kvs) {
 	_ = kitlevel.Error(l.next).Log(l.format(kvs.Add(logkv.Kvs{"msg": msg, "error": err}))...)
 }
@@ -73,6 +77,10 @@ func NewZapLogKv(log *zap.SugaredLogger) logkv.LogKv {
 
 func (l *zapLogger) With(kvs logkv.Kvs) logkv.LogKv {
 	return &zapLogger{next: l.next.With(l.format(kvs)...)}
+}
+
+func (l *zapLogger) WithFunc(fn func() logkv.Kvs) logkv.LogKv {
+	return l.With(fn())
 }
 
 func (l *zapLogger) Error(msg string, err error, kvs logkv.Kvs) {
